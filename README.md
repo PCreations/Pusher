@@ -30,7 +30,7 @@ Subscribing to a channel is very simple. It's a server-side flow. In your contro
 	//Some event information
 	$data = array('message' => 'Something happened');
 
-	//Trigger an event named EVENT_NAME on the CHANNEL_NAME channel. You can use private and presence channel by prefixing the name by private- or presence-. See [pusher docs] (http://pusher.com/docs/client_api_guide/client_channels) for details
+	//Trigger an event named EVENT_NAME on the CHANNEL_NAME channel. You can use private and presence channel by prefixing the name by private- or presence-. See pusher docs (http://pusher.com/docs/client_api_guide/client_channels) for details
 	$this->Pusher->trigger(CHANNEL_NAME, EVENT_NAME, $data);
 
 ### Subscribe to a channel
@@ -43,7 +43,7 @@ Subscribing to a channel is very simple. It's a server-side flow. In your contro
 
 ### Authentication with private channels
 
-When using private channel, authentication is handled by the Pusher Controller. Your app need to be a authenticate app to use this functionnality.
+When using private channel, authentication is handled by the Pusher Controller. Your app need to be an authenticate app to use this functionnality.
 
 Example
 -------
