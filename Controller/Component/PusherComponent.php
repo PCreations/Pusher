@@ -13,6 +13,10 @@ class PusherComponent extends Component {
 
 	private $cakeEventPrefix = 'Pusher';
 
+	private $privatePrefix = 'private-';
+
+	private $presencePrefix = 'presence-';
+
 	public function __construct(ComponentCollection $collection, $settings) {
 		$this->pusher = new Pusher(
 			Configure::read('Pusher.credentials.appKey'),
@@ -25,15 +29,28 @@ class PusherComponent extends Component {
 		$this->controller = $controller;
 	}
 
+	public function triggerPrivate($channel, $event, $data) {
+		$this->pusher->trigger($this->privatePrefix.$channel, $event, $data);
+	}
+
+	public function triggerPresence($channel, $event, $data) {
+		$this->pusher->trigger($this->presencePrefix.$channel, $event, $data);
+	}
+
 	public function trigger($channel, $event, $data) {
-		$this->controller->getEventManager()->dispatch(
-			new CakeEvent(
-				$this->buildCakeEventName($channel, $event),
-				$this->controller,
-				$data
-			)
-		);
 		$this->pusher->trigger($channel, $event, $data);
+	}
+
+	public function getChannelType($channel) {
+		if(strpos($channel, $this->privatePrefix) !== false)
+			return 'private';
+		if(strpos($channel, $this->presencePrefix) !== false)
+			return 'presence';
+		return 'public';
+	}
+
+	public function privateAuth($channel, $socketID) {
+		return $this->pusher->socket_auth($channel, $socketID);
 	}
 
 	private function buildCakeEventName($channel, $event) {
