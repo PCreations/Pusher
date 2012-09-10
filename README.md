@@ -58,7 +58,7 @@ A very simple example could be this :
 	public function push() {
 		$data = array(
 			'message' => 'Something happened !',
-			'triggerBy' => $this->Auth->user('username')
+			'triggeredBy' => $this->Auth->user('username')
 		);
 		$this->Pusher->trigger('private-my-great-channel', 'foo_bar', $data);
 	}
@@ -73,7 +73,7 @@ A very simple example could be this :
 
 Open your browser and open in one widget yourapp/foo/receive and in an another widget yourapp/foo/push. When you'll push the event you shoul see the message in your javascript console. If not, checks the ajax request to auth/ because you need to be authenticate since you're subscribing to a private channel.
 
-Functionnalities not include yet
+Functionalities not include yet
 ------------------------------
 
 The auth for presence channel is not handled yet
