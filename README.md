@@ -25,7 +25,7 @@ How to use it
 
 ### Trigger Event
 
-Subscribing to a channel is very simple. It's a server-side flow. In your controller just do the following :
+Trigger an event on a channel is very simple. It's a server-side flow. In your controller just do the following :
 
 	//Some event information
 	$data = array('message' => 'Something happened');
