@@ -26,15 +26,33 @@ class PusherHelper extends Helper {
 		$this->Js->buffer('pusher.subscribe(\'' . $channelName . '\')');
 	}
 
-	public function bindEvent($channelName, $event, $script) {
-		$script = String::insert(
-			$script,
-			array(
-				'message' => "'+data.message+'"
-			)
-		);
+	public function bindChannelEvent($channelName, $event, $script) {
 		$this->Js->buffer(
 			$this->getChannel($channelName) . '.bind("' . $event . '", function(data) {
+				' . $script . '
+			});'
+		);
+	}
+
+	public function bindChannel($channelName, $script) {
+		$this->Js->buffer(
+			$this->getChannel($channelName) . '.bind_all(function(data) {
+				' . $script . '
+			});'
+		);
+	}
+
+	public function bindEvent($event, $script) {
+		$this->Js->buffer(
+			'pusher.bind("' . $event . '", function(data) {
+				' . $script . '
+			});'
+		);
+	}
+
+	public function bindAll($script) {
+		$this->Js->buffer(
+			'pusher.bind_all(function(data) {
 				' . $script . '
 			});'
 		);
