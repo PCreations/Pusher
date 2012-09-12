@@ -2,9 +2,6 @@
 
 require_once App::pluginPath('Pusher') . DS . 'Vendor' . DS . 'lib' . DS . 'Pusher.php';
 
-App::uses('CakeEventManager', 'Event');
-App::uses('CakeEvent', 'Event');
-
 class PusherComponent extends Component {
 
 	public $pusher;
@@ -29,16 +26,8 @@ class PusherComponent extends Component {
 		$this->controller = $controller;
 	}
 
-	public function triggerPrivate($channel, $event, $data) {
-		$this->pusher->trigger($this->privatePrefix.$channel, $event, $data);
-	}
-
-	public function triggerPresence($channel, $event, $data) {
-		$this->pusher->trigger($this->presencePrefix.$channel, $event, $data);
-	}
-
-	public function trigger($channel, $event, $data) {
-		$this->pusher->trigger($channel, $event, $data);
+	public function privateAuth($channel, $socketID) {
+		return $this->pusher->socket_auth($channel, $socketID);
 	}
 
 	public function getChannelType($channel) {
@@ -48,17 +37,6 @@ class PusherComponent extends Component {
 			return 'presence';
 		return 'public';
 	}
-
-	public function privateAuth($channel, $socketID) {
-		return $this->pusher->socket_auth($channel, $socketID);
-	}
-
-	private function buildCakeEventName($channel, $event) {
-		return $this->cakeEventPrefix . '.' . Inflector::camelize($channel) . '.' . Inflector::camelize($event);
-	}
-
-
-
 }
 
 ?>
