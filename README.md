@@ -12,10 +12,12 @@ Copy to your application plugins folder and load it in your bootstrap file :
 		'bootstrap' => true
 	'));
 
-Add the Pusher component and the Pusher helper in your components/helpers list :
+Add the PusherBehavior and the PusherHelper in your behaviors/helpers list :
 	
-	public $components = array('Pusher.Pusher');
+	//YourModel.php
+	public $actsAs = array('Pusher.Pusher');
 
+	//YourController.php
 	public $helpers = array('Pusher.Pusher');
 
 Your application needs to be register on [Pusher website] (http://pusher.com/). Open the Pusher/Config/bootstrap.php file and set your credentials.
@@ -31,7 +33,7 @@ Trigger an event on a channel is very simple. It's a server-side flow. In your c
 	$data = array('message' => 'Something happened');
 
 	//Trigger an event named EVENT_NAME on the CHANNEL_NAME channel. You can use private and presence channel by prefixing the name by private- or presence-. See pusher docs (http://pusher.com/docs/client_api_guide/client_channels) for details
-	$this->Pusher->trigger(CHANNEL_NAME, EVENT_NAME, $data);
+	$this->YourModel->trigger(CHANNEL_NAME, EVENT_NAME, $data);
 
 ### Subscribe to a channel
 
@@ -50,6 +52,9 @@ Example
 
 A very simple example could be this :
 
+	//Model/FooModel.php
+	public $actsAs = array('Pusher.Pusher');
+
 	//Controller/FooController.php
 	public $components = array('Auth', 'Pusher.Pusher');
 
@@ -60,7 +65,7 @@ A very simple example could be this :
 			'message' => 'Something happened !',
 			'triggeredBy' => $this->Auth->user('username')
 		);
-		$this->Pusher->trigger('private-my-great-channel', 'foo_bar', $data);
+		$this->Foo->trigger('private-my-great-channel', 'foo_bar', $data);
 	}
 
 	public function receive() {
@@ -77,4 +82,7 @@ Functionalities not include yet
 ------------------------------
 
 The auth for presence channel is not handled yet
+Get channel infos
+Set socket_id to avoid duplicate event
+...
 
