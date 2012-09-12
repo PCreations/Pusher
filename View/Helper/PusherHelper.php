@@ -36,7 +36,7 @@ class PusherHelper extends Helper {
 
 	public function bindChannel($channelName, $script) {
 		$this->Js->buffer(
-			$this->getChannel($channelName) . '.bind_all(function(data) {
+			$this->getChannel($channelName) . '.bind_all(function(event_name, data) {
 				' . $script . '
 			});'
 		);
@@ -52,7 +52,7 @@ class PusherHelper extends Helper {
 
 	public function bindAll($script) {
 		$this->Js->buffer(
-			'pusher.bind_all(function(data) {
+			'pusher.bind_all(function(event_name, data) {
 				' . $script . '
 			});'
 		);
